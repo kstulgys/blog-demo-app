@@ -18,17 +18,28 @@ import PageNotFound from './PageNotFound'
 import LogoutPage from './LogoutPage'
 import { AUTH_TOKEN } from '../constant'
 import { isTokenExpired } from '../helper/jwtHelper'
-// import { graphql } from 'react-apollo'
+import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
 
 class ProtectedRoute extends Component {
   render() {
-    const token = localStorage.getItem(AUTH_TOKEN)
+    // const token = localStorage.getItem(AUTH_TOKEN)
     const { component: Component, ...rest } = this.props
     return (
-      token && (
-        <Route {...rest} render={matchProps => <Component {...matchProps} />} />
-      )
+      <Query query={ME_QUERY}>
+        {({ data: { me }, loading, error }) => {
+          if (loading) return <div>Loading...</div>
+          if (error) return <div>Error...</div>
+          return me ? (
+            <Route
+              {...rest}
+              render={matchProps => <Component {...matchProps} />}
+            />
+          ) : (
+            <Redirect to="login" />
+          )
+        }}
+      </Query>
     )
   }
 }
@@ -42,14 +53,6 @@ const ME_QUERY = gql`
     }
   }
 `
-
-// }= ({ component: Component, token, ...rest }) => {
-//   return token ? (
-//     <Route {...rest} render={matchProps => <Component {...matchProps} />} />
-//   ) : (
-//     <Redirect to="/login" />
-//   )
-// }
 
 class App extends Component {
   render() {

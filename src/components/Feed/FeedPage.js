@@ -1,24 +1,71 @@
 import React, { Component, Fragment } from 'react'
 import Post from '../Post'
-import { graphql, Query } from 'react-apollo'
+import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
+import { List, Avatar, Icon, Card } from 'antd'
+const { Meta } = Card
+const listData = []
+for (let i = 0; i < 23; i++) {
+  listData.push({
+    href: 'http://ant.design',
+    title: `ant design part ${i}`,
+    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+    description:
+      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+    content:
+      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+  })
+}
+
+const IconText = ({ type, text }) => (
+  <span>
+    <Icon type={type} style={{ marginRight: 8 }} />
+    {text}
+  </span>
+)
 
 const FeedPage = ({ data, loading, error }) => (
-  <Fragment>
-    {loading && <div>Fetching</div>}
-    {error && <div>Error</div>}
-    <h1>Feed</h1>
-    {data.feed &&
-      data.feed.map(post => (
-        <Post
-          key={post.id}
-          post={post}
-          refresh={() => this.props.feedQuery.refetch()}
-          isDraft={!post.isPublished}
-        />
-      ))}
-  </Fragment>
+  // <Fragment>
+  //   {loading && <div>Fetching</div>}
+  //   {error && <div>Error</div>}
+  //   <h1>Feed</h1>
+  //   {data.feed &&
+  //     data.feed.map(post => (
+  //       <Post
+  //         key={post.id}
+  //         post={post}
+  //         refresh={() => this.props.feedQuery.refetch()}
+  //         isDraft={!post.isPublished}
+  //       />
+  //     ))}
+  <div
+    style={{
+      flex: 1,
+      display: 'flex',
+      backgroundColor: 'white',
+      width: '75%',
+      margin: 'auto',
+      // flexDirection: 'column',
+      // justifyContent: 'center',
+      justifyContent: 'space-between',
+    }}
+    bordered={false}
+  >
+    <div>
+      <p>Card content</p>
+      <p>Card content</p>
+    </div>
+    <div>
+      <img
+        alt="example"
+        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
+        height="200px"
+      />
+    </div>
+  </div>
 )
+
+//************************************************************************************************************
 
 class FeedWithSubscription extends Component {
   componentDidMount() {

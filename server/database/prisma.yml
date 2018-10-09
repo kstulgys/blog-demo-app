@@ -8,7 +8,7 @@ datamodel: datamodel.graphql
 seed:
   import: seed.graphql
 
-# Download the GraphQL schema of the Prisma API into 
+# Download the GraphQL schema of the Prisma API into
 # `src/generated/prisma.graphql` (as specfied in `.graphqlconfig.yml`).
 hooks:
   post-deploy:
@@ -18,3 +18,4 @@ hooks:
 # to the `Authorization` header of HTTP requests made against the Prisma API.
 # Info: https://www.prisma.io/docs/reference/prisma-api/concepts-utee3eiquo#authentication
 # secret: ${env:PRISMA_SECRET}
+
