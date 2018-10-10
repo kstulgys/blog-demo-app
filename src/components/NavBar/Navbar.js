@@ -70,7 +70,11 @@ class Navbar extends Component {
               >
                 <Menu.Item key="setting:1">
                   <CreatePost>
-                    {({ showModal }) => <p onClick={showModal}>create post</p>}
+                    {({ showModal }) => (
+                      <p style={{ margin: 0, padding: 0 }} onClick={showModal}>
+                        create post
+                      </p>
+                    )}
                   </CreatePost>
                 </Menu.Item>
                 <Menu.Item key="setting:2">drafts</Menu.Item>
@@ -84,9 +88,9 @@ class Navbar extends Component {
               <Menu.Item key="setting:7" style={{ marginRight: '5%' }}>
                 <LogIn>
                   {({ showModal }) => (
-                    <p onClick={showModal} style={{ margin: 0 }}>
+                    <span onClick={showModal} style={{ margin: 0, padding: 0 }}>
                       Log in
-                    </p>
+                    </span>
                   )}
                 </LogIn>
               </Menu.Item>

@@ -46,34 +46,36 @@ class CreatePost extends Component {
 
   render() {
     const { title, text } = this.state
-    return (
-      <Mutation mutation={POST_MUTATION} variables={{ title, text }}>
-        {(postMutation, { loading, error }) => (
-          <Form>
-            {this.props.children({
-              showModal: this.showModal,
-            })}
 
-            <Modal
-              title="Basic Modal"
-              visible={this.state.visible}
-              onOk={e => this.handleOk(e, postMutation)}
-              onCancel={this.handleCancel}
-            >
-              <Input
-                placeholder="Please add title"
-                onChange={e => this.setState({ title: e.target.value })}
-              />
-              <br />
-              <TextArea
-                rows={4}
-                placeholder="Please add content"
-                onChange={e => this.setState({ text: e.target.value })}
-              />
-            </Modal>
-          </Form>
-        )}
-      </Mutation>
+    return (
+      <Fragment>
+        {this.props.children({
+          showModal: this.showModal,
+        })}
+        <Mutation mutation={POST_MUTATION} variables={{ title, text }}>
+          {(postMutation, { loading, error }) => (
+            <Form>
+              <Modal
+                title="Basic Modal"
+                visible={this.state.visible}
+                onOk={e => this.handleOk(e, postMutation)}
+                onCancel={this.handleCancel}
+              >
+                <Input
+                  placeholder="Please add title"
+                  onChange={e => this.setState({ title: e.target.value })}
+                />
+                <br />
+                <TextArea
+                  rows={4}
+                  placeholder="Please add content"
+                  onChange={e => this.setState({ text: e.target.value })}
+                />
+              </Modal>
+            </Form>
+          )}
+        </Mutation>
+      </Fragment>
     )
   }
 }

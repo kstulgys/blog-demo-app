@@ -2,63 +2,70 @@ import React, { Component, Fragment } from 'react'
 // import Post from '../Post'
 import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
-import { List, Avatar, Icon, Card } from 'antd'
+import { List, Avatar, Icon, Card, Row, Col } from 'antd'
 const { Meta } = Card
 
-const listData = []
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  })
-}
+// const listData = []
+// for (let i = 0; i < 23; i++) {
+//   listData.push({
+//     href: 'http://ant.design',
+//     title: `ant design part ${i}`,
+//     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
+//     description:
+//       'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+//     content:
+//       'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+//   })
+// }
 
-const IconText = ({ type, text }) => (
+const IconText = ({ type, text, paddingL }) => (
   <span>
-    <Icon type={type} style={{ marginRight: 8 }} />
+    <Icon type={type} style={{ marginRight: 8, paddingLeft: paddingL }} />
     {text}
   </span>
 )
 
-const FeedPage = ({ data, loading, error }) => (
-  <List
-    // size="small"
-    itemLayout="vertical"
-    dataSource={listData}
-    renderItem={item => (
-      <List.Item
-        style={{ padding: 0, margin: 20 }}
-        key={item.title}
-        actions={[
-          <IconText type="like-o" text="156" />,
-          <IconText type="book" theme="outlined" />,
-          <IconText type="message" text="2" />,
-        ]}
-        extra={
-          <img
-            style={{ height: 200 }}
-            alt="logo"
-            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-          />
-        }
-      >
-        <List.Item.Meta
-          avatar={
-            <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+const FeedPage = ({ data, loading, error }) => {
+  loading && <h1>Show spinner...</h1>
+  error && <h1>Show error...</h1>
+  return (
+    <List
+      itemLayout="vertical"
+      dataSource={data.feed}
+      renderItem={item => (
+        <List.Item
+          style={{
+            // backgroundColor: 'white',
+            height: 200,
+          }}
+          // grid={{ gutter: 16, xl: 11, offset: 6 }}
+          key={item.id}
+          actions={[
+            <IconText type="like-o" text="156" />,
+            <IconText type="book" theme="outlined" />,
+            <IconText type="message" text="2" />,
+          ]}
+          extra={
+            <img
+              height={200}
+              alt="logo"
+              src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+            />
           }
-          title={<a href={item.href}>{item.title}</a>}
-          // description={item.description}
-        />
-        <div style={{ height: 100 }}>{item.content}</div>
-      </List.Item>
-    )}
-  />
-)
+        >
+          <List.Item.Meta
+            avatar={
+              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+            }
+            title={<a href={item.href}>{item.title}</a>}
+          />
+
+          {item.text}
+        </List.Item>
+      )}
+    />
+  )
+}
 
 //************************************************************************************************************
 

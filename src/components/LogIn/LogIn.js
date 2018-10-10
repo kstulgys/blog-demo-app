@@ -3,6 +3,8 @@ import { Modal, Button, Form, Icon, Input, Checkbox } from 'antd'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { ME_QUERY } from '../User'
+import { AUTH_TOKEN } from '../../constant'
+import { withRouter } from 'react-router-dom'
 const FormItem = Form.Item
 class LogIn extends Component {
   state = {
@@ -108,11 +110,15 @@ class LogIn extends Component {
                     onClick={async e => {
                       e.preventDefault()
                       const {
-                        data: { login: { token } },
+                        data: {
+                          login: { token },
+                        },
                       } = await loginMutation()
-                      localStorage.setItem('auth_token', token)
-                      this.setState({ visible: false })
-                      console.log(token)
+                      localStorage.setItem(AUTH_TOKEN, token)
+                      this.props.history.push('/')
+                      // this.setState({ visible: false })
+                      window.location.reload()
+                      // console.log(token)
                     }}
                   >
                     Log in
@@ -131,7 +137,7 @@ class LogIn extends Component {
   }
 }
 
-export default LogIn
+export default withRouter(LogIn)
 
 const LOGIN_MUTATION = gql`
   mutation LOGIN_MUTATION($email: String!, $password: String!) {
