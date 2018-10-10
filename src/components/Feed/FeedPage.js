@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from 'react'
-import Post from '../Post'
+// import Post from '../Post'
 import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import { List, Avatar, Icon, Card } from 'antd'
 const { Meta } = Card
+
 const listData = []
 for (let i = 0; i < 23; i++) {
   listData.push({
@@ -25,44 +26,38 @@ const IconText = ({ type, text }) => (
 )
 
 const FeedPage = ({ data, loading, error }) => (
-  // <Fragment>
-  //   {loading && <div>Fetching</div>}
-  //   {error && <div>Error</div>}
-  //   <h1>Feed</h1>
-  //   {data.feed &&
-  //     data.feed.map(post => (
-  //       <Post
-  //         key={post.id}
-  //         post={post}
-  //         refresh={() => this.props.feedQuery.refetch()}
-  //         isDraft={!post.isPublished}
-  //       />
-  //     ))}
-  <div
-    style={{
-      flex: 1,
-      display: 'flex',
-      backgroundColor: 'white',
-      width: '75%',
-      margin: 'auto',
-      // flexDirection: 'column',
-      // justifyContent: 'center',
-      justifyContent: 'space-between',
-    }}
-    bordered={false}
-  >
-    <div>
-      <p>Card content</p>
-      <p>Card content</p>
-    </div>
-    <div>
-      <img
-        alt="example"
-        src="https://os.alipayobjects.com/rmsportal/QBnOOoLaAfKPirc.png"
-        height="200px"
-      />
-    </div>
-  </div>
+  <List
+    // size="small"
+    itemLayout="vertical"
+    dataSource={listData}
+    renderItem={item => (
+      <List.Item
+        style={{ padding: 0, margin: 20 }}
+        key={item.title}
+        actions={[
+          <IconText type="like-o" text="156" />,
+          <IconText type="book" theme="outlined" />,
+          <IconText type="message" text="2" />,
+        ]}
+        extra={
+          <img
+            style={{ height: 200 }}
+            alt="logo"
+            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+          />
+        }
+      >
+        <List.Item.Meta
+          avatar={
+            <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+          }
+          title={<a href={item.href}>{item.title}</a>}
+          // description={item.description}
+        />
+        <div style={{ height: 100 }}>{item.content}</div>
+      </List.Item>
+    )}
+  />
 )
 
 //************************************************************************************************************

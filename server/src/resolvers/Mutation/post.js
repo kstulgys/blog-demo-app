@@ -14,7 +14,7 @@ const post = {
           },
         },
       },
-      info
+      info,
     )
   },
 
@@ -48,6 +48,26 @@ const post = {
     }
 
     return ctx.db.mutation.deletePost({ where: { id } })
+  },
+  async createBookmark(parent, { postId }, ctx, info) {
+    const userId = getUserId(ctx)
+    const postExists = await ctx.db.exists.Post({
+      post: { id: postId },
+      author: { id: userId },
+    })
+    if (postExists) {
+      throw new Error(`Already bookedmarked post: ${postId}`)
+    }
+
+    return ctx.db.mutation.createBookmark(
+      {
+        data: {
+          post: { connect: { id: userId } },
+          author: { connect: { id: postId } },
+        },
+      },
+      info,
+    )
   },
 }
 

@@ -6,6 +6,7 @@ type Post {
   title: String!
   text: String!
   author: User!
+  bookmarks: [Bookmark!]!
 }
 
 type User {
@@ -14,4 +15,11 @@ type User {
   password: String!
   name: String!
   posts: [Post!]!
+  bookmarks: [Bookmark!]!
+}
+
+type Bookmark {
+  id: ID! @unique
+  post: Post!
+  user: User!
 }

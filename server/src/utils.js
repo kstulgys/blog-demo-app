@@ -8,7 +8,7 @@ function getUserId(ctx) {
     return userId
   }
 
-  throw new AuthError()
+  return null
 }
 
 class AuthError extends Error {
@@ -19,5 +19,5 @@ class AuthError extends Error {
 
 module.exports = {
   getUserId,
-  AuthError
+  AuthError,
 }

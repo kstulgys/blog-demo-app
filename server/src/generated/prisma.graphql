@@ -1,5 +1,9 @@
 # source: https://us1.prisma.sh/public-mudbone-789/blog-demo-app/dev
-# timestamp: Tue Oct 09 2018 12:50:23 GMT+1100 (AUS Eastern Daylight Time)
+# timestamp: Wed Oct 10 2018 10:14:11 GMT+1100 (AUS Eastern Daylight Time)
+
+type AggregateBookmark {
+  count: Int!
+}
 
 type AggregatePost {
   count: Int!
@@ -14,6 +18,216 @@ type BatchPayload {
   count: Long!
 }
 
+type Bookmark implements Node {
+  id: ID!
+  post: Post!
+  user: User!
+}
+
+"""A connection to a list of items."""
+type BookmarkConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [BookmarkEdge]!
+  aggregate: AggregateBookmark!
+}
+
+input BookmarkCreateInput {
+  post: PostCreateOneWithoutBookmarksInput!
+  user: UserCreateOneWithoutBookmarksInput!
+}
+
+input BookmarkCreateManyWithoutPostInput {
+  create: [BookmarkCreateWithoutPostInput!]
+  connect: [BookmarkWhereUniqueInput!]
+}
+
+input BookmarkCreateManyWithoutUserInput {
+  create: [BookmarkCreateWithoutUserInput!]
+  connect: [BookmarkWhereUniqueInput!]
+}
+
+input BookmarkCreateWithoutPostInput {
+  user: UserCreateOneWithoutBookmarksInput!
+}
+
+input BookmarkCreateWithoutUserInput {
+  post: PostCreateOneWithoutBookmarksInput!
+}
+
+"""An edge in a connection."""
+type BookmarkEdge {
+  """The item at the end of the edge."""
+  node: Bookmark!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum BookmarkOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type BookmarkPreviousValues {
+  id: ID!
+}
+
+type BookmarkSubscriptionPayload {
+  mutation: MutationType!
+  node: Bookmark
+  updatedFields: [String!]
+  previousValues: BookmarkPreviousValues
+}
+
+input BookmarkSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BookmarkSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BookmarkSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BookmarkSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: BookmarkWhereInput
+}
+
+input BookmarkUpdateInput {
+  post: PostUpdateOneRequiredWithoutBookmarksInput
+  user: UserUpdateOneRequiredWithoutBookmarksInput
+}
+
+input BookmarkUpdateManyWithoutPostInput {
+  create: [BookmarkCreateWithoutPostInput!]
+  connect: [BookmarkWhereUniqueInput!]
+  disconnect: [BookmarkWhereUniqueInput!]
+  delete: [BookmarkWhereUniqueInput!]
+  update: [BookmarkUpdateWithWhereUniqueWithoutPostInput!]
+  upsert: [BookmarkUpsertWithWhereUniqueWithoutPostInput!]
+}
+
+input BookmarkUpdateManyWithoutUserInput {
+  create: [BookmarkCreateWithoutUserInput!]
+  connect: [BookmarkWhereUniqueInput!]
+  disconnect: [BookmarkWhereUniqueInput!]
+  delete: [BookmarkWhereUniqueInput!]
+  update: [BookmarkUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [BookmarkUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input BookmarkUpdateWithoutPostDataInput {
+  user: UserUpdateOneRequiredWithoutBookmarksInput
+}
+
+input BookmarkUpdateWithoutUserDataInput {
+  post: PostUpdateOneRequiredWithoutBookmarksInput
+}
+
+input BookmarkUpdateWithWhereUniqueWithoutPostInput {
+  where: BookmarkWhereUniqueInput!
+  data: BookmarkUpdateWithoutPostDataInput!
+}
+
+input BookmarkUpdateWithWhereUniqueWithoutUserInput {
+  where: BookmarkWhereUniqueInput!
+  data: BookmarkUpdateWithoutUserDataInput!
+}
+
+input BookmarkUpsertWithWhereUniqueWithoutPostInput {
+  where: BookmarkWhereUniqueInput!
+  update: BookmarkUpdateWithoutPostDataInput!
+  create: BookmarkCreateWithoutPostInput!
+}
+
+input BookmarkUpsertWithWhereUniqueWithoutUserInput {
+  where: BookmarkWhereUniqueInput!
+  update: BookmarkUpdateWithoutUserDataInput!
+  create: BookmarkCreateWithoutUserInput!
+}
+
+input BookmarkWhereInput {
+  """Logical AND on all given filters."""
+  AND: [BookmarkWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [BookmarkWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [BookmarkWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  post: PostWhereInput
+  user: UserWhereInput
+}
+
+input BookmarkWhereUniqueInput {
+  id: ID
+}
+
 scalar DateTime
 
 """
@@ -25,16 +239,22 @@ scalar Long
 type Mutation {
   createPost(data: PostCreateInput!): Post!
   createUser(data: UserCreateInput!): User!
+  createBookmark(data: BookmarkCreateInput!): Bookmark!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
+  updateBookmark(data: BookmarkUpdateInput!, where: BookmarkWhereUniqueInput!): Bookmark
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
+  deleteBookmark(where: BookmarkWhereUniqueInput!): Bookmark
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
+  upsertBookmark(where: BookmarkWhereUniqueInput!, create: BookmarkCreateInput!, update: BookmarkUpdateInput!): Bookmark!
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
+  updateManyBookmarks(data: BookmarkUpdateInput!, where: BookmarkWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  deleteManyBookmarks(where: BookmarkWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -72,6 +292,7 @@ type Post implements Node {
   title: String!
   text: String!
   author: User!
+  bookmarks(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bookmark!]
 }
 
 """A connection to a list of items."""
@@ -89,6 +310,7 @@ input PostCreateInput {
   title: String!
   text: String!
   author: UserCreateOneWithoutPostsInput!
+  bookmarks: BookmarkCreateManyWithoutPostInput
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -96,10 +318,23 @@ input PostCreateManyWithoutAuthorInput {
   connect: [PostWhereUniqueInput!]
 }
 
+input PostCreateOneWithoutBookmarksInput {
+  create: PostCreateWithoutBookmarksInput
+  connect: PostWhereUniqueInput
+}
+
 input PostCreateWithoutAuthorInput {
   isPublished: Boolean
   title: String!
   text: String!
+  bookmarks: BookmarkCreateManyWithoutPostInput
+}
+
+input PostCreateWithoutBookmarksInput {
+  isPublished: Boolean
+  title: String!
+  text: String!
+  author: UserCreateOneWithoutPostsInput!
 }
 
 """An edge in a connection."""
@@ -179,6 +414,7 @@ input PostUpdateInput {
   title: String
   text: String
   author: UserUpdateOneRequiredWithoutPostsInput
+  bookmarks: BookmarkUpdateManyWithoutPostInput
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -190,15 +426,35 @@ input PostUpdateManyWithoutAuthorInput {
   upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
 }
 
+input PostUpdateOneRequiredWithoutBookmarksInput {
+  create: PostCreateWithoutBookmarksInput
+  connect: PostWhereUniqueInput
+  update: PostUpdateWithoutBookmarksDataInput
+  upsert: PostUpsertWithoutBookmarksInput
+}
+
 input PostUpdateWithoutAuthorDataInput {
   isPublished: Boolean
   title: String
   text: String
+  bookmarks: BookmarkUpdateManyWithoutPostInput
+}
+
+input PostUpdateWithoutBookmarksDataInput {
+  isPublished: Boolean
+  title: String
+  text: String
+  author: UserUpdateOneRequiredWithoutPostsInput
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
   where: PostWhereUniqueInput!
   data: PostUpdateWithoutAuthorDataInput!
+}
+
+input PostUpsertWithoutBookmarksInput {
+  update: PostUpdateWithoutBookmarksDataInput!
+  create: PostCreateWithoutBookmarksInput!
 }
 
 input PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -385,6 +641,9 @@ input PostWhereInput {
   """All values not ending with the given string."""
   text_not_ends_with: String
   author: UserWhereInput
+  bookmarks_every: BookmarkWhereInput
+  bookmarks_some: BookmarkWhereInput
+  bookmarks_none: BookmarkWhereInput
 }
 
 input PostWhereUniqueInput {
@@ -394,10 +653,13 @@ input PostWhereUniqueInput {
 type Query {
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
+  bookmarks(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bookmark]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
+  bookmark(where: BookmarkWhereUniqueInput!): Bookmark
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  bookmarksConnection(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BookmarkConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -409,6 +671,7 @@ type Query {
 type Subscription {
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  bookmark(where: BookmarkSubscriptionWhereInput): BookmarkSubscriptionPayload
 }
 
 type User implements Node {
@@ -417,6 +680,7 @@ type User implements Node {
   password: String!
   name: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  bookmarks(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bookmark!]
 }
 
 """A connection to a list of items."""
@@ -434,6 +698,12 @@ input UserCreateInput {
   password: String!
   name: String!
   posts: PostCreateManyWithoutAuthorInput
+  bookmarks: BookmarkCreateManyWithoutUserInput
+}
+
+input UserCreateOneWithoutBookmarksInput {
+  create: UserCreateWithoutBookmarksInput
+  connect: UserWhereUniqueInput
 }
 
 input UserCreateOneWithoutPostsInput {
@@ -441,10 +711,18 @@ input UserCreateOneWithoutPostsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateWithoutBookmarksInput {
+  email: String!
+  password: String!
+  name: String!
+  posts: PostCreateManyWithoutAuthorInput
+}
+
 input UserCreateWithoutPostsInput {
   email: String!
   password: String!
   name: String!
+  bookmarks: BookmarkCreateManyWithoutUserInput
 }
 
 """An edge in a connection."""
@@ -522,6 +800,14 @@ input UserUpdateInput {
   password: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
+  bookmarks: BookmarkUpdateManyWithoutUserInput
+}
+
+input UserUpdateOneRequiredWithoutBookmarksInput {
+  create: UserCreateWithoutBookmarksInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutBookmarksDataInput
+  upsert: UserUpsertWithoutBookmarksInput
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -531,10 +817,23 @@ input UserUpdateOneRequiredWithoutPostsInput {
   upsert: UserUpsertWithoutPostsInput
 }
 
+input UserUpdateWithoutBookmarksDataInput {
+  email: String
+  password: String
+  name: String
+  posts: PostUpdateManyWithoutAuthorInput
+}
+
 input UserUpdateWithoutPostsDataInput {
   email: String
   password: String
   name: String
+  bookmarks: BookmarkUpdateManyWithoutUserInput
+}
+
+input UserUpsertWithoutBookmarksInput {
+  update: UserUpdateWithoutBookmarksDataInput!
+  create: UserCreateWithoutBookmarksInput!
 }
 
 input UserUpsertWithoutPostsInput {
@@ -714,6 +1013,9 @@ input UserWhereInput {
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
+  bookmarks_every: BookmarkWhereInput
+  bookmarks_some: BookmarkWhereInput
+  bookmarks_none: BookmarkWhereInput
 }
 
 input UserWhereUniqueInput {

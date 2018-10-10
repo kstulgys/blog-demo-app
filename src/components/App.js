@@ -9,13 +9,13 @@ import {
 } from 'react-router-dom'
 import NavBar from './NavBar'
 import FeedPage from './Feed/FeedPage'
-import DraftsPage from './DraftsPage'
-import CreatePage from './CreatePage'
-import DetailPage from './DetailPage'
-import LoginPage from './LoginPage'
-import SignupPage from './SignupPage'
-import PageNotFound from './PageNotFound'
-import LogoutPage from './LogoutPage'
+// import DraftsPage from './DraftsPage'
+// import CreatePage from './CreatePage'
+// import DetailPage from './Post/DetailPage'
+// import LoginPage from './Post/LoginPage'
+// import SignupPage from './SignupPage'
+// import PageNotFound from './PageNotFound'
+// import LogoutPage from './LogoutPage'
 import { AUTH_TOKEN } from '../constant'
 import { isTokenExpired } from '../helper/jwtHelper'
 import { Query } from 'react-apollo'
@@ -65,23 +65,23 @@ class App extends Component {
           <div className="fl w-100 pl4 pr4">
             <Switch>
               <Route exact path="/" component={FeedPage} />
-              <ProtectedRoute path="/drafts" component={DraftsPage} />
-              <ProtectedRoute path="/create" component={CreatePage} />
-              <Route path="/post/:id" component={DetailPage} />
-              <Route
+              {/*   <ProtectedRoute path="/drafts" component={DraftsPage} />*/}
+              {/*  <ProtectedRoute path="/create" component={CreatePage} />*/}
+              {/*  <Route path="/post/:id" component={DetailPage} />*/}
+              {/*  <Route
                 path="/login"
                 render={props => (
                   <LoginPage refreshTokenFn={this.refreshTokenFn} />
                 )}
-              />
-              <Route
+              />*/}
+              {/* <Route
                 path="/signup"
                 render={props => (
                   <SignupPage refreshTokenFn={this.refreshTokenFn} />
                 )}
-              />
-              <Route path="/logout" component={LogoutPage} />
-              <Route component={PageNotFound} />
+              />*/}
+              {/*   <Route path="/logout" component={LogoutPage} />*/}
+              {/*   <Route component={PageNotFound} />*/}
             </Switch>
           </div>
         </Fragment>

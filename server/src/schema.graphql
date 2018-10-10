@@ -1,4 +1,4 @@
-# import Post, PostSubscriptionPayload from "./generated/prisma.graphql"
+# import Post, Bookmark,BookmarkWhereInput, BookmarkConnection,UserWhereUniqueInput, PostSubscriptionPayload from "./generated/prisma.graphql"
 
 type Query {
   feed: [Post!]!
@@ -13,6 +13,7 @@ type Mutation {
   createDraft(title: String!, text: String!): Post!
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
+  createBookmark(postId: ID!): Bookmark
 }
 
 type Subscription {
@@ -29,4 +30,5 @@ type User {
   email: String!
   name: String!
   posts: [Post!]!
+  bookmarks: [Bookmark!]!
 }
