@@ -28,14 +28,14 @@ class CreatePost extends Component {
     })
   }
 
-  handleOk = async (e, postMutation) => {
-    e.preventDefault()
-    const res = await postMutation()
-    console.log(res)
-    this.setState({
-      visible: false,
-    })
-  }
+  // handleOk = async (e, postMutation) => {
+  //   e.preventDefault()
+  //   const res = await postMutation()
+  //   console.log(res)
+  //   this.setState({
+  //     visible: false,
+  //   })
+  // }
 
   handleCancel = e => {
     console.log(e)
@@ -46,19 +46,26 @@ class CreatePost extends Component {
 
   render() {
     const { title, text } = this.state
-
+    console.log(title, text)
     return (
       <Fragment>
         {this.props.children({
           showModal: this.showModal,
         })}
-        <Mutation mutation={POST_MUTATION} variables={{ title, text }}>
-          {(postMutation, { loading, error }) => (
+        <Mutation mutation={DRAFT_MUTATION} variables={{ title, text }}>
+          {(createDraft, { loading, error }) => (
             <Form>
               <Modal
                 title="Basic Modal"
                 visible={this.state.visible}
-                onOk={e => this.handleOk(e, postMutation)}
+                onOk={async e => {
+                  e.preventDefault()
+                  const res = await createDraft()
+                  console.log(res)
+                  this.setState({
+                    visible: false,
+                  })
+                }}
                 onCancel={this.handleCancel}
               >
                 <Input
@@ -82,9 +89,9 @@ class CreatePost extends Component {
 
 export default CreatePost
 
-const POST_MUTATION = gql`
-  mutation POST_MUTATION($title: String!, $text: String!) {
-    post(title: $title, text: $text) {
+const DRAFT_MUTATION = gql`
+  mutation DRAFT_MUTATION($title: String!, $text: String!) {
+    createDraft(title: $title, text: $text) {
       id
       createdAt
       title
@@ -92,3 +99,14 @@ const POST_MUTATION = gql`
     }
   }
 `
+
+// const PUBLISH_MUTATION = gql`
+//   mutation PUBLISH_MUTATION($title: String!, $text: String!) {
+//     publish(title: $title, text: $text) {
+//       id
+//       # createdAt
+//       title
+//       text
+//     }
+//   }
+// `

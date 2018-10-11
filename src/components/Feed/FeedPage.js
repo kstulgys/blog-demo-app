@@ -1,69 +1,66 @@
 import React, { Component, Fragment } from 'react'
 // import Post from '../Post'
+import './index.css'
 import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import { List, Avatar, Icon, Card, Row, Col } from 'antd'
+import moment from 'moment'
 const { Meta } = Card
 
-// const listData = []
-// for (let i = 0; i < 23; i++) {
-//   listData.push({
-//     href: 'http://ant.design',
-//     title: `ant design part ${i}`,
-//     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-//     description:
-//       'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-//     content:
-//       'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-//   })
-// }
-
 const IconText = ({ type, text, paddingL }) => (
-  <span>
-    <Icon type={type} style={{ marginRight: 8, paddingLeft: paddingL }} />
-    {text}
-  </span>
+  <a className="ph2 flex items-center">
+    <Icon type={type} />
+    <span className="pl1">{text}</span>
+  </a>
 )
 
 const FeedPage = ({ data, loading, error }) => {
-  loading && <h1>Show spinner...</h1>
-  error && <h1>Show error...</h1>
-  return (
-    <List
-      itemLayout="vertical"
-      dataSource={data.feed}
-      renderItem={item => (
-        <List.Item
-          style={{
-            // backgroundColor: 'white',
-            height: 200,
-          }}
-          // grid={{ gutter: 16, xl: 11, offset: 6 }}
-          key={item.id}
-          actions={[
-            <IconText type="like-o" text="156" />,
-            <IconText type="book" theme="outlined" />,
-            <IconText type="message" text="2" />,
-          ]}
-          extra={
-            <img
-              height={200}
-              alt="logo"
-              src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-            />
-          }
-        >
-          <List.Item.Meta
-            avatar={
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-            }
-            title={<a href={item.href}>{item.title}</a>}
-          />
+  if (loading) return <h1>Show spinner...</h1>
+  if (error) return <h1>Show error...</h1>
 
-          {item.text}
-        </List.Item>
-      )}
-    />
+  return (
+    <Row type="flex">
+      <Col
+        xs={24}
+        // sm={{ span: 20, push: 2 }}
+        // md={{ span: 20, push: 2 }}
+        lg={18}
+      >
+        <Row type="flex" gutter="16" justify="start">
+          {data.feed.map(post => (
+            <Col xs={24} sm={24} md={12} lg={12}>
+              <article className="mt3 bg-white br1 h4 flex shadow-1 grow  justify-between">
+                <div className="pa2 flex w-100 flex-column justify-between">
+                  <h3 className="ttu pl2 ma0">{post.title}</h3>
+                  <p className="w-100 pl2 block-with-text ma0">{post.text}</p>
+                  <div className="flex justify-between mb0 pb0">
+                    <div>
+                      <p className="ma0 pl2">
+                        {moment(post.createdAt).format('MMM Do YY')}
+                      </p>
+                    </div>
+                    <div className="flex justify-between">
+                      <IconText type="like-o" text="156" />
+                      <IconText type="book" theme="outlined" />
+                      <IconText type="message" text="2" />
+                    </div>
+                  </div>
+                </div>
+
+                <img
+                  className="h4"
+                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                  alt="night sky over water"
+                />
+              </article>
+            </Col>
+          ))}
+        </Row>
+      </Col>
+      <Col xs={0} lg={{ span: 5, offset: 1 }}>
+        <h1>Liked posts</h1>
+      </Col>
+    </Row>
   )
 }
 
@@ -74,12 +71,12 @@ class FeedWithSubscription extends Component {
     this.props.subscribeToNewFeed()
   }
 
-  componentDidUpdate(prevProps) {
-    // Typical usage (don't forget to compare props):
-    if (this.props.userID !== prevProps.userID) {
-      this.fetchData(this.props.userID)
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   // Typical usage (don't forget to compare props):
+  //   if (this.props.userID !== prevProps.userID) {
+  //     this.fetchData(this.props.userID)
+  //   }
+  // }
   render() {
     return <FeedPage {...this.props} />
   }
@@ -112,11 +109,12 @@ const FeedWithData = () => (
 export default FeedWithData
 
 const FEED_QUERY = gql`
-  query FeedQuery {
+  query FEED_QUERY {
     feed {
       id
       text
       title
+      createdAt
       isPublished
       author {
         name
@@ -125,7 +123,7 @@ const FEED_QUERY = gql`
   }
 `
 const FEED_SUBSCRIPTION = gql`
-  subscription FeedSubscription {
+  subscription FEED_SUBSCRIPTION {
     feedSubscription {
       node {
         id
@@ -141,92 +139,38 @@ const FEED_SUBSCRIPTION = gql`
   }
 `
 
-// {this.props.children}
-// if (this.props.feedQuery.loading) {
-//   return (
-//     <div className="flex w-100 h-100 items-center justify-center pt7">
-//       <div>Loading (from {process.env.REACT_APP_GRAPHQL_ENDPOINT})</div>
-//     </div>
-//   )
-// }
-
-// return (
-//   <Fragment>
-//     <h1>Feed</h1>
-//     {this.props.feedQuery.feed &&
-//       this.props.feedQuery.feed.map(post => (
-//         <Post
-//           key={post.id}
-//           post={post}
-//           refresh={() => this.props.feedQuery.refetch()}
-//           isDraft={!post.isPublished}
+// <List
+//   itemLayout="vertical"
+//   dataSource={data.feed}
+//   renderItem={item => (
+//     <List.Item
+//       style={{
+//         // backgroundColor: 'white',
+//         height: 200,
+//       }}
+//       // grid={{ gutter: 16, xl: 11, offset: 6 }}
+//       key={item.id}
+//       actions={[
+// <IconText type="like-o" text="156" />,
+// <IconText type="book" theme="outlined" />,
+// <IconText type="message" text="2" />,
+//       ]}
+//       extra={
+//         <img
+//           height={200}
+//           alt="logo"
+//           src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
 //         />
-//       ))}
-//     {this.props.children}
-//   </Fragment>
-// )
+//       }
+//     >
+//       <List.Item.Meta
+//         avatar={
+//           <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+//         }
+//         title={<a href={item.href}>{item.title}</a>}
+//       />
 
-// export default graphql(FEED_QUERY, {
-//   name: 'feedQuery', // name of the injected prop: this.props.feedQuery...
-//   options: {
-//     fetchPolicy: 'network-only',
-//   },
-//   props: props =>
-//     Object.assign({}, props, {
-//       subscribeToNewFeed: params => {
-//         return props.feedQuery.subscribeToMore({
-//           document: FEED_SUBSCRIPTION,
-//           updateQuery: (prev, { subscriptionData }) => {
-//             if (!subscriptionData.data) {
-//               return prev
-//             }
-//             const newPost = subscriptionData.data.feedSubscription.node
-//             if (prev.feed.find(post => post.id === newPost.id)) {
-//               return prev
-//             }
-// return Object.assign({}, prev, {
-//   feed: [...prev.feed, newPost],
-// })
-//           },
-//         })
-//       },
-//     }),
-// })(FeedPage)
-
-// class FeedPage extends Component {
-// componentWillReceiveProps(nextProps) {
-//   if (this.props.location.key !== nextProps.location.key) {
-//     this.props.feedQuery.refetch()
-//   }
-// }
-
-// componentDidMount() {
-//   this.props.subscribeToNewFeed()
-// }
-
-//   render() {
-//     if (this.props.feedQuery.loading) {
-//       return (
-//         <div className="flex w-100 h-100 items-center justify-center pt7">
-//           <div>Loading (from {process.env.REACT_APP_GRAPHQL_ENDPOINT})</div>
-//         </div>
-//       )
-//     }
-
-//     return (
-//       <Fragment>
-//         <h1>Feed</h1>
-//         {this.props.feedQuery.feed &&
-//           this.props.feedQuery.feed.map(post => (
-//             <Post
-//               key={post.id}
-//               post={post}
-//               refresh={() => this.props.feedQuery.refetch()}
-//               isDraft={!post.isPublished}
-//             />
-//           ))}
-//         {this.props.children}
-//       </Fragment>
-//     )
-//   }
-// }
+//       {item.text}
+//     </List.Item>
+//   )}
+// />
