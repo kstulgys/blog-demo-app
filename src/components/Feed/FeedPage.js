@@ -57,9 +57,10 @@ const FeedWithData = () => (
               if (prev.feed.find(post => post.id === newPost.id)) {
                 return prev
               }
-              return Object.assign({}, prev, {
+              return {
+                ...prev,
                 feed: [...prev.feed, newPost],
-              })
+              }
             },
           })
         }
@@ -69,7 +70,7 @@ const FeedWithData = () => (
 )
 export default FeedWithData
 
-const FEED_QUERY = gql`
+export const FEED_QUERY = gql`
   query FEED_QUERY {
     feed {
       id
