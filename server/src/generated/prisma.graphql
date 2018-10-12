@@ -1,7 +1,11 @@
-# source: https://us1.prisma.sh/public-mudbone-789/blog-demo-app/dev
-# timestamp: Wed Oct 10 2018 10:14:11 GMT+1100 (AUS Eastern Daylight Time)
+# source: https://eu1.prisma.sh/karolis-stulgys-9eb3b5/blog-demo-app/dev
+# timestamp: Fri Oct 12 2018 10:56:19 GMT+1100 (AUS Eastern Daylight Time)
 
 type AggregateBookmark {
+  count: Int!
+}
+
+type AggregateLike {
   count: Int!
 }
 
@@ -230,6 +234,216 @@ input BookmarkWhereUniqueInput {
 
 scalar DateTime
 
+type Like implements Node {
+  id: ID!
+  post: Post!
+  user: User!
+}
+
+"""A connection to a list of items."""
+type LikeConnection {
+  """Information to aid in pagination."""
+  pageInfo: PageInfo!
+
+  """A list of edges."""
+  edges: [LikeEdge]!
+  aggregate: AggregateLike!
+}
+
+input LikeCreateInput {
+  post: PostCreateOneWithoutLikesInput!
+  user: UserCreateOneWithoutLikesInput!
+}
+
+input LikeCreateManyWithoutPostInput {
+  create: [LikeCreateWithoutPostInput!]
+  connect: [LikeWhereUniqueInput!]
+}
+
+input LikeCreateManyWithoutUserInput {
+  create: [LikeCreateWithoutUserInput!]
+  connect: [LikeWhereUniqueInput!]
+}
+
+input LikeCreateWithoutPostInput {
+  user: UserCreateOneWithoutLikesInput!
+}
+
+input LikeCreateWithoutUserInput {
+  post: PostCreateOneWithoutLikesInput!
+}
+
+"""An edge in a connection."""
+type LikeEdge {
+  """The item at the end of the edge."""
+  node: Like!
+
+  """A cursor for use in pagination."""
+  cursor: String!
+}
+
+enum LikeOrderByInput {
+  id_ASC
+  id_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  createdAt_ASC
+  createdAt_DESC
+}
+
+type LikePreviousValues {
+  id: ID!
+}
+
+type LikeSubscriptionPayload {
+  mutation: MutationType!
+  node: Like
+  updatedFields: [String!]
+  previousValues: LikePreviousValues
+}
+
+input LikeSubscriptionWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LikeSubscriptionWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LikeSubscriptionWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LikeSubscriptionWhereInput!]
+
+  """
+  The subscription event gets dispatched when it's listed in mutation_in
+  """
+  mutation_in: [MutationType!]
+
+  """
+  The subscription event gets only dispatched when one of the updated fields names is included in this list
+  """
+  updatedFields_contains: String
+
+  """
+  The subscription event gets only dispatched when all of the field names included in this list have been updated
+  """
+  updatedFields_contains_every: [String!]
+
+  """
+  The subscription event gets only dispatched when some of the field names included in this list have been updated
+  """
+  updatedFields_contains_some: [String!]
+  node: LikeWhereInput
+}
+
+input LikeUpdateInput {
+  post: PostUpdateOneRequiredWithoutLikesInput
+  user: UserUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateManyWithoutPostInput {
+  create: [LikeCreateWithoutPostInput!]
+  connect: [LikeWhereUniqueInput!]
+  disconnect: [LikeWhereUniqueInput!]
+  delete: [LikeWhereUniqueInput!]
+  update: [LikeUpdateWithWhereUniqueWithoutPostInput!]
+  upsert: [LikeUpsertWithWhereUniqueWithoutPostInput!]
+}
+
+input LikeUpdateManyWithoutUserInput {
+  create: [LikeCreateWithoutUserInput!]
+  connect: [LikeWhereUniqueInput!]
+  disconnect: [LikeWhereUniqueInput!]
+  delete: [LikeWhereUniqueInput!]
+  update: [LikeUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [LikeUpsertWithWhereUniqueWithoutUserInput!]
+}
+
+input LikeUpdateWithoutPostDataInput {
+  user: UserUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateWithoutUserDataInput {
+  post: PostUpdateOneRequiredWithoutLikesInput
+}
+
+input LikeUpdateWithWhereUniqueWithoutPostInput {
+  where: LikeWhereUniqueInput!
+  data: LikeUpdateWithoutPostDataInput!
+}
+
+input LikeUpdateWithWhereUniqueWithoutUserInput {
+  where: LikeWhereUniqueInput!
+  data: LikeUpdateWithoutUserDataInput!
+}
+
+input LikeUpsertWithWhereUniqueWithoutPostInput {
+  where: LikeWhereUniqueInput!
+  update: LikeUpdateWithoutPostDataInput!
+  create: LikeCreateWithoutPostInput!
+}
+
+input LikeUpsertWithWhereUniqueWithoutUserInput {
+  where: LikeWhereUniqueInput!
+  update: LikeUpdateWithoutUserDataInput!
+  create: LikeCreateWithoutUserInput!
+}
+
+input LikeWhereInput {
+  """Logical AND on all given filters."""
+  AND: [LikeWhereInput!]
+
+  """Logical OR on all given filters."""
+  OR: [LikeWhereInput!]
+
+  """Logical NOT on all given filters combined by AND."""
+  NOT: [LikeWhereInput!]
+  id: ID
+
+  """All values that are not equal to given value."""
+  id_not: ID
+
+  """All values that are contained in given list."""
+  id_in: [ID!]
+
+  """All values that are not contained in given list."""
+  id_not_in: [ID!]
+
+  """All values less than the given value."""
+  id_lt: ID
+
+  """All values less than or equal the given value."""
+  id_lte: ID
+
+  """All values greater than the given value."""
+  id_gt: ID
+
+  """All values greater than or equal the given value."""
+  id_gte: ID
+
+  """All values containing the given string."""
+  id_contains: ID
+
+  """All values not containing the given string."""
+  id_not_contains: ID
+
+  """All values starting with the given string."""
+  id_starts_with: ID
+
+  """All values not starting with the given string."""
+  id_not_starts_with: ID
+
+  """All values ending with the given string."""
+  id_ends_with: ID
+
+  """All values not ending with the given string."""
+  id_not_ends_with: ID
+  post: PostWhereInput
+  user: UserWhereInput
+}
+
+input LikeWhereUniqueInput {
+  id: ID
+}
+
 """
 The `Long` scalar type represents non-fractional signed whole numeric values.
 Long can represent values between -(2^63) and 2^63 - 1.
@@ -240,21 +454,27 @@ type Mutation {
   createPost(data: PostCreateInput!): Post!
   createUser(data: UserCreateInput!): User!
   createBookmark(data: BookmarkCreateInput!): Bookmark!
+  createLike(data: LikeCreateInput!): Like!
   updatePost(data: PostUpdateInput!, where: PostWhereUniqueInput!): Post
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateBookmark(data: BookmarkUpdateInput!, where: BookmarkWhereUniqueInput!): Bookmark
+  updateLike(data: LikeUpdateInput!, where: LikeWhereUniqueInput!): Like
   deletePost(where: PostWhereUniqueInput!): Post
   deleteUser(where: UserWhereUniqueInput!): User
   deleteBookmark(where: BookmarkWhereUniqueInput!): Bookmark
+  deleteLike(where: LikeWhereUniqueInput!): Like
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   upsertBookmark(where: BookmarkWhereUniqueInput!, create: BookmarkCreateInput!, update: BookmarkUpdateInput!): Bookmark!
+  upsertLike(where: LikeWhereUniqueInput!, create: LikeCreateInput!, update: LikeUpdateInput!): Like!
   updateManyPosts(data: PostUpdateInput!, where: PostWhereInput): BatchPayload!
   updateManyUsers(data: UserUpdateInput!, where: UserWhereInput): BatchPayload!
   updateManyBookmarks(data: BookmarkUpdateInput!, where: BookmarkWhereInput): BatchPayload!
+  updateManyLikes(data: LikeUpdateInput!, where: LikeWhereInput): BatchPayload!
   deleteManyPosts(where: PostWhereInput): BatchPayload!
   deleteManyUsers(where: UserWhereInput): BatchPayload!
   deleteManyBookmarks(where: BookmarkWhereInput): BatchPayload!
+  deleteManyLikes(where: LikeWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -293,6 +513,7 @@ type Post implements Node {
   text: String!
   author: User!
   bookmarks(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bookmark!]
+  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
 }
 
 """A connection to a list of items."""
@@ -311,6 +532,7 @@ input PostCreateInput {
   text: String!
   author: UserCreateOneWithoutPostsInput!
   bookmarks: BookmarkCreateManyWithoutPostInput
+  likes: LikeCreateManyWithoutPostInput
 }
 
 input PostCreateManyWithoutAuthorInput {
@@ -323,11 +545,17 @@ input PostCreateOneWithoutBookmarksInput {
   connect: PostWhereUniqueInput
 }
 
+input PostCreateOneWithoutLikesInput {
+  create: PostCreateWithoutLikesInput
+  connect: PostWhereUniqueInput
+}
+
 input PostCreateWithoutAuthorInput {
   isPublished: Boolean
   title: String!
   text: String!
   bookmarks: BookmarkCreateManyWithoutPostInput
+  likes: LikeCreateManyWithoutPostInput
 }
 
 input PostCreateWithoutBookmarksInput {
@@ -335,6 +563,15 @@ input PostCreateWithoutBookmarksInput {
   title: String!
   text: String!
   author: UserCreateOneWithoutPostsInput!
+  likes: LikeCreateManyWithoutPostInput
+}
+
+input PostCreateWithoutLikesInput {
+  isPublished: Boolean
+  title: String!
+  text: String!
+  author: UserCreateOneWithoutPostsInput!
+  bookmarks: BookmarkCreateManyWithoutPostInput
 }
 
 """An edge in a connection."""
@@ -415,6 +652,7 @@ input PostUpdateInput {
   text: String
   author: UserUpdateOneRequiredWithoutPostsInput
   bookmarks: BookmarkUpdateManyWithoutPostInput
+  likes: LikeUpdateManyWithoutPostInput
 }
 
 input PostUpdateManyWithoutAuthorInput {
@@ -433,11 +671,19 @@ input PostUpdateOneRequiredWithoutBookmarksInput {
   upsert: PostUpsertWithoutBookmarksInput
 }
 
+input PostUpdateOneRequiredWithoutLikesInput {
+  create: PostCreateWithoutLikesInput
+  connect: PostWhereUniqueInput
+  update: PostUpdateWithoutLikesDataInput
+  upsert: PostUpsertWithoutLikesInput
+}
+
 input PostUpdateWithoutAuthorDataInput {
   isPublished: Boolean
   title: String
   text: String
   bookmarks: BookmarkUpdateManyWithoutPostInput
+  likes: LikeUpdateManyWithoutPostInput
 }
 
 input PostUpdateWithoutBookmarksDataInput {
@@ -445,6 +691,15 @@ input PostUpdateWithoutBookmarksDataInput {
   title: String
   text: String
   author: UserUpdateOneRequiredWithoutPostsInput
+  likes: LikeUpdateManyWithoutPostInput
+}
+
+input PostUpdateWithoutLikesDataInput {
+  isPublished: Boolean
+  title: String
+  text: String
+  author: UserUpdateOneRequiredWithoutPostsInput
+  bookmarks: BookmarkUpdateManyWithoutPostInput
 }
 
 input PostUpdateWithWhereUniqueWithoutAuthorInput {
@@ -455,6 +710,11 @@ input PostUpdateWithWhereUniqueWithoutAuthorInput {
 input PostUpsertWithoutBookmarksInput {
   update: PostUpdateWithoutBookmarksDataInput!
   create: PostCreateWithoutBookmarksInput!
+}
+
+input PostUpsertWithoutLikesInput {
+  update: PostUpdateWithoutLikesDataInput!
+  create: PostCreateWithoutLikesInput!
 }
 
 input PostUpsertWithWhereUniqueWithoutAuthorInput {
@@ -644,6 +904,9 @@ input PostWhereInput {
   bookmarks_every: BookmarkWhereInput
   bookmarks_some: BookmarkWhereInput
   bookmarks_none: BookmarkWhereInput
+  likes_every: LikeWhereInput
+  likes_some: LikeWhereInput
+  likes_none: LikeWhereInput
 }
 
 input PostWhereUniqueInput {
@@ -654,12 +917,15 @@ type Query {
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   bookmarks(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bookmark]!
+  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like]!
   post(where: PostWhereUniqueInput!): Post
   user(where: UserWhereUniqueInput!): User
   bookmark(where: BookmarkWhereUniqueInput!): Bookmark
+  like(where: LikeWhereUniqueInput!): Like
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
   bookmarksConnection(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): BookmarkConnection!
+  likesConnection(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LikeConnection!
 
   """Fetches an object given its ID"""
   node(
@@ -672,6 +938,7 @@ type Subscription {
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
   bookmark(where: BookmarkSubscriptionWhereInput): BookmarkSubscriptionPayload
+  like(where: LikeSubscriptionWhereInput): LikeSubscriptionPayload
 }
 
 type User implements Node {
@@ -681,6 +948,7 @@ type User implements Node {
   name: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   bookmarks(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bookmark!]
+  likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
 }
 
 """A connection to a list of items."""
@@ -699,10 +967,16 @@ input UserCreateInput {
   name: String!
   posts: PostCreateManyWithoutAuthorInput
   bookmarks: BookmarkCreateManyWithoutUserInput
+  likes: LikeCreateManyWithoutUserInput
 }
 
 input UserCreateOneWithoutBookmarksInput {
   create: UserCreateWithoutBookmarksInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateOneWithoutLikesInput {
+  create: UserCreateWithoutLikesInput
   connect: UserWhereUniqueInput
 }
 
@@ -716,6 +990,15 @@ input UserCreateWithoutBookmarksInput {
   password: String!
   name: String!
   posts: PostCreateManyWithoutAuthorInput
+  likes: LikeCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutLikesInput {
+  email: String!
+  password: String!
+  name: String!
+  posts: PostCreateManyWithoutAuthorInput
+  bookmarks: BookmarkCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutPostsInput {
@@ -723,6 +1006,7 @@ input UserCreateWithoutPostsInput {
   password: String!
   name: String!
   bookmarks: BookmarkCreateManyWithoutUserInput
+  likes: LikeCreateManyWithoutUserInput
 }
 
 """An edge in a connection."""
@@ -801,6 +1085,7 @@ input UserUpdateInput {
   name: String
   posts: PostUpdateManyWithoutAuthorInput
   bookmarks: BookmarkUpdateManyWithoutUserInput
+  likes: LikeUpdateManyWithoutUserInput
 }
 
 input UserUpdateOneRequiredWithoutBookmarksInput {
@@ -808,6 +1093,13 @@ input UserUpdateOneRequiredWithoutBookmarksInput {
   connect: UserWhereUniqueInput
   update: UserUpdateWithoutBookmarksDataInput
   upsert: UserUpsertWithoutBookmarksInput
+}
+
+input UserUpdateOneRequiredWithoutLikesInput {
+  create: UserCreateWithoutLikesInput
+  connect: UserWhereUniqueInput
+  update: UserUpdateWithoutLikesDataInput
+  upsert: UserUpsertWithoutLikesInput
 }
 
 input UserUpdateOneRequiredWithoutPostsInput {
@@ -822,6 +1114,15 @@ input UserUpdateWithoutBookmarksDataInput {
   password: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
+  likes: LikeUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutLikesDataInput {
+  email: String
+  password: String
+  name: String
+  posts: PostUpdateManyWithoutAuthorInput
+  bookmarks: BookmarkUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutPostsDataInput {
@@ -829,11 +1130,17 @@ input UserUpdateWithoutPostsDataInput {
   password: String
   name: String
   bookmarks: BookmarkUpdateManyWithoutUserInput
+  likes: LikeUpdateManyWithoutUserInput
 }
 
 input UserUpsertWithoutBookmarksInput {
   update: UserUpdateWithoutBookmarksDataInput!
   create: UserCreateWithoutBookmarksInput!
+}
+
+input UserUpsertWithoutLikesInput {
+  update: UserUpdateWithoutLikesDataInput!
+  create: UserCreateWithoutLikesInput!
 }
 
 input UserUpsertWithoutPostsInput {
@@ -1016,6 +1323,9 @@ input UserWhereInput {
   bookmarks_every: BookmarkWhereInput
   bookmarks_some: BookmarkWhereInput
   bookmarks_none: BookmarkWhereInput
+  likes_every: LikeWhereInput
+  likes_some: LikeWhereInput
+  likes_none: LikeWhereInput
 }
 
 input UserWhereUniqueInput {

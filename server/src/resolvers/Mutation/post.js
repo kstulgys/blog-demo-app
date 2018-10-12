@@ -69,6 +69,27 @@ const post = {
       info,
     )
   },
+
+  async createLike(parent, { postId }, ctx, info) {
+    const userId = getUserId(ctx)
+    return await ctx.db.mutation.createLike(
+      {
+        data: {
+          post: { connect: { id: postId } },
+          user: { connect: { id: userId } },
+        },
+      },
+      info,
+    )
+  },
 }
 
 module.exports = { post }
+
+// const postExists = await ctx.db.exists.Like({
+//   post: { id: postId },
+//   author: { id: userId },
+// })
+// if (postExists) {
+//   throw new Error(`Already bookedmarked post: ${postId}`)
+// }

@@ -1,4 +1,4 @@
-# import Post, Bookmark,BookmarkWhereInput, BookmarkConnection,UserWhereUniqueInput, PostSubscriptionPayload from "./generated/prisma.graphql"
+# import Post, Like, Bookmark,BookmarkWhereInput, BookmarkConnection,UserWhereUniqueInput, PostSubscriptionPayload from "./generated/prisma.graphql"
 
 type Query {
   feed: [Post!]!
@@ -14,6 +14,7 @@ type Mutation {
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
   createBookmark(postId: ID!): Bookmark
+  createLike(postId: ID!): Like!
   # createPost(title: String!, text: String!): Post!
 }
 
@@ -32,4 +33,5 @@ type User {
   name: String!
   posts: [Post!]!
   bookmarks: [Bookmark!]!
+  likes: [Like!]!
 }

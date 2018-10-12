@@ -1,60 +1,21 @@
 import React, { Component, Fragment } from 'react'
-// import Post from '../Post'
 import './index.css'
 import { Query } from 'react-apollo'
 import { gql } from 'apollo-boost'
 import { List, Avatar, Icon, Card, Row, Col } from 'antd'
 import moment from 'moment'
+import Post from '../Post/Post'
 const { Meta } = Card
-
-const IconText = ({ type, text, paddingL }) => (
-  <a className="ph2 flex items-center">
-    <Icon type={type} />
-    <span className="pl1">{text}</span>
-  </a>
-)
 
 const FeedPage = ({ data, loading, error }) => {
   if (loading) return <h1>Show spinner...</h1>
   if (error) return <h1>Show error...</h1>
-
   return (
     <Row type="flex">
-      <Col
-        xs={24}
-        // sm={{ span: 20, push: 2 }}
-        // md={{ span: 20, push: 2 }}
-        lg={18}
-      >
+      <Col xs={24} lg={18}>
         <Row type="flex" gutter="16" justify="start">
-          {data.feed.map(post => (
-            <Col xs={24} sm={24} md={12} lg={12}>
-              <article className="mt3 bg-white br1 h4 flex shadow-1 grow  justify-between">
-                <div className="pa2 flex w-100 flex-column justify-between">
-                  <h3 className="ttu pl2 ma0">{post.title}</h3>
-                  <p className="w-100 pl2 block-with-text ma0">{post.text}</p>
-                  <div className="flex justify-between mb0 pb0">
-                    <div>
-                      <p className="ma0 pl2">
-                        {moment(post.createdAt).format('MMM Do YY')}
-                      </p>
-                    </div>
-                    <div className="flex justify-between">
-                      <IconText type="like-o" text="156" />
-                      <IconText type="book" theme="outlined" />
-                      <IconText type="message" text="2" />
-                    </div>
-                  </div>
-                </div>
-
-                <img
-                  className="h4"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                  alt="night sky over water"
-                />
-              </article>
-            </Col>
-          ))}
+          {data.feed &&
+            data.feed.map(post => <Post key={post.id} post={post} />)}
         </Row>
       </Col>
       <Col xs={0} lg={{ span: 5, offset: 1 }}>
@@ -112,12 +73,20 @@ const FEED_QUERY = gql`
   query FEED_QUERY {
     feed {
       id
-      text
       title
+      text
       createdAt
-      isPublished
       author {
         name
+      }
+      likes {
+        id
+        post {
+          text
+        }
+        user {
+          name
+        }
       }
     }
   }
@@ -127,11 +96,20 @@ const FEED_SUBSCRIPTION = gql`
     feedSubscription {
       node {
         id
-        text
         title
-        isPublished
+        text
+        createdAt
         author {
           name
+        }
+        likes {
+          id
+          post {
+            text
+          }
+          user {
+            name
+          }
         }
       }
       mutation
