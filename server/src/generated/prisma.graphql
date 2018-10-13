@@ -1,5 +1,5 @@
-# source: https://eu1.prisma.sh/karolis-stulgys-9eb3b5/blog-demo-app/dev
-# timestamp: Fri Oct 12 2018 10:56:19 GMT+1100 (AUS Eastern Daylight Time)
+# source: https://us1.prisma.sh/karolis-stulgys-9eb3b5/blog-db/dev
+# timestamp: Sat Oct 13 2018 16:42:52 GMT+1100 (Australian Eastern Daylight Time)
 
 type AggregateBookmark {
   count: Int!
@@ -514,6 +514,7 @@ type Post implements Node {
   author: User!
   bookmarks(where: BookmarkWhereInput, orderBy: BookmarkOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Bookmark!]
   likes(where: LikeWhereInput, orderBy: LikeOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Like!]
+  bookmarkedByMe: Boolean!
 }
 
 """A connection to a list of items."""
@@ -530,6 +531,7 @@ input PostCreateInput {
   isPublished: Boolean
   title: String!
   text: String!
+  bookmarkedByMe: Boolean
   author: UserCreateOneWithoutPostsInput!
   bookmarks: BookmarkCreateManyWithoutPostInput
   likes: LikeCreateManyWithoutPostInput
@@ -554,6 +556,7 @@ input PostCreateWithoutAuthorInput {
   isPublished: Boolean
   title: String!
   text: String!
+  bookmarkedByMe: Boolean
   bookmarks: BookmarkCreateManyWithoutPostInput
   likes: LikeCreateManyWithoutPostInput
 }
@@ -562,6 +565,7 @@ input PostCreateWithoutBookmarksInput {
   isPublished: Boolean
   title: String!
   text: String!
+  bookmarkedByMe: Boolean
   author: UserCreateOneWithoutPostsInput!
   likes: LikeCreateManyWithoutPostInput
 }
@@ -570,6 +574,7 @@ input PostCreateWithoutLikesInput {
   isPublished: Boolean
   title: String!
   text: String!
+  bookmarkedByMe: Boolean
   author: UserCreateOneWithoutPostsInput!
   bookmarks: BookmarkCreateManyWithoutPostInput
 }
@@ -596,6 +601,8 @@ enum PostOrderByInput {
   title_DESC
   text_ASC
   text_DESC
+  bookmarkedByMe_ASC
+  bookmarkedByMe_DESC
 }
 
 type PostPreviousValues {
@@ -605,6 +612,7 @@ type PostPreviousValues {
   isPublished: Boolean!
   title: String!
   text: String!
+  bookmarkedByMe: Boolean!
 }
 
 type PostSubscriptionPayload {
@@ -650,6 +658,7 @@ input PostUpdateInput {
   isPublished: Boolean
   title: String
   text: String
+  bookmarkedByMe: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
   bookmarks: BookmarkUpdateManyWithoutPostInput
   likes: LikeUpdateManyWithoutPostInput
@@ -682,6 +691,7 @@ input PostUpdateWithoutAuthorDataInput {
   isPublished: Boolean
   title: String
   text: String
+  bookmarkedByMe: Boolean
   bookmarks: BookmarkUpdateManyWithoutPostInput
   likes: LikeUpdateManyWithoutPostInput
 }
@@ -690,6 +700,7 @@ input PostUpdateWithoutBookmarksDataInput {
   isPublished: Boolean
   title: String
   text: String
+  bookmarkedByMe: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
   likes: LikeUpdateManyWithoutPostInput
 }
@@ -698,6 +709,7 @@ input PostUpdateWithoutLikesDataInput {
   isPublished: Boolean
   title: String
   text: String
+  bookmarkedByMe: Boolean
   author: UserUpdateOneRequiredWithoutPostsInput
   bookmarks: BookmarkUpdateManyWithoutPostInput
 }
@@ -900,6 +912,10 @@ input PostWhereInput {
 
   """All values not ending with the given string."""
   text_not_ends_with: String
+  bookmarkedByMe: Boolean
+
+  """All values that are not equal to given value."""
+  bookmarkedByMe_not: Boolean
   author: UserWhereInput
   bookmarks_every: BookmarkWhereInput
   bookmarks_some: BookmarkWhereInput

@@ -25,6 +25,14 @@ const Subscription = {
       )
     },
   },
+  likeSubscription: {
+    subscribe: (parent, args, ctx, info) => {
+      return ctx.db.subscription.like(
+        { where: { mutation_in: ['CREATED'] } },
+        info,
+      )
+    },
+  },
 }
 
 module.exports = { Subscription }

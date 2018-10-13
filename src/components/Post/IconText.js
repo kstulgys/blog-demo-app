@@ -5,12 +5,12 @@ import { gql } from 'apollo-boost'
 import { List, Tooltip, Icon, Card, Row, Col } from 'antd'
 import User from '../User'
 
-const IconText = ({ type, text, theMutation }) => (
+const IconText = ({ type, text, theMutation, theme }) => (
   <User>
-    {({ me }) => (
+    {({ data }) => (
       <a className="ph2 flex items-center" onClick={theMutation}>
-        <Tooltip placement="top" title={!me && `You must be logged in`}>
-          <Icon type={type} />
+        <Tooltip placement="top" title={!data.me && `You must be logged in`}>
+          <Icon type={type} theme={theme} />
           <span className="pl1">{text}</span>
         </Tooltip>
       </a>

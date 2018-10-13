@@ -22,24 +22,11 @@ class CreateLike extends Component {
       <Mutation
         mutation={LIKE_MUTATION}
         variables={{ postId: this.props.post.id }}
-        // update={(store, { data: { createLike } }) =>
-        //   this.updateStoreAfterVote(store, createLike, this.props.postId)
-        // }
-        optimisticResponse={{
-          __typename: 'Mutation',
-          createLike: {
-            __typename: 'Like',
-
-            id: this.props.post.id,
-            post: this.props.post,
-            likes: this.props.post.likes.concat({ id: 'vcjsvdcjscd' }),
-          },
-        }}
       >
         {likeMutation => (
           <IconText
             type="like-o"
-            text={this.props.likes}
+            text={this.props.post.likes.length}
             theMutation={likeMutation}
           />
         )}
@@ -63,39 +50,25 @@ const LIKE_MUTATION = gql`
         # }
         likes {
           id
-          #   user {
-          #     id
-          #   }
+          user {
+            id
+          }
         }
       }
     }
   }
 `
 
-// const LIKE_MUTATION = gql`
-//   mutation LIKE_MUTATION($postId: ID!) {
-//     createLike(postId: $postId) {
-//       id
-//       post {
-//         id
-//         title
-//         text
-//         createdAt
-//         author {
-//           id
-//           name
-//         }
-//         likes {
-//           id
-//           post {
-//             text
-//           }
-//           user {
-//             id
-//             name
-//           }
-//         }
-//       }
-//     }
-//   }
-// `
+// update={(store, { data: { createLike } }) =>
+//   this.updateStoreAfterVote(store, createLike, this.props.postId)
+// }
+// optimisticResponse={{
+//   __typename: 'Mutation',
+//   createLike: {
+//     __typename: 'Like',
+
+//     id: this.props.post.id,
+//     post: this.props.post,
+//     likes: this.props.post.likes.concat({ id: 'vcjsvdcjscd' }),
+//   },
+// }}

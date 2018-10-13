@@ -8,6 +8,7 @@ type Post {
   author: User!
   bookmarks: [Bookmark!]!
   likes: [Like!]!
+  bookmarkedByMe: Boolean! @default(value: "false")
 }
 
 type User {

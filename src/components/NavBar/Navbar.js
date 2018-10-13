@@ -30,7 +30,7 @@ class Navbar extends Component {
   render() {
     return (
       <User>
-        {({ me }) => (
+        {({ data }) => (
           <Menu
             mode="horizontal"
             style={{
@@ -59,7 +59,7 @@ class Navbar extends Component {
                 marginRight: '1%',
               }}
             />
-            {me ? (
+            {data.me ? (
               <SubMenu
                 style={{ marginRight: '5%' }}
                 title={

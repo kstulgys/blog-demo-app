@@ -5,6 +5,7 @@ import { gql } from 'apollo-boost'
 import { List, Avatar, Icon, Card, Row, Col } from 'antd'
 import moment from 'moment'
 import Post from '../Post/Post'
+import Bookmarked from '../Post/Bookmarked'
 const { Meta } = Card
 
 const FeedPage = ({ data, loading, error }) => {
@@ -12,14 +13,14 @@ const FeedPage = ({ data, loading, error }) => {
   if (error) return <h1>Show error...</h1>
   return (
     <Row type="flex">
-      <Col xs={24} lg={18}>
-        <Row type="flex" gutter="16" justify="start">
+      <Col xs={24} lg={{ span: 14, offset: 2 }}>
+        <Row type="flex" gutter="50" justify="start">
           {data.feed &&
             data.feed.map(post => <Post key={post.id} post={post} />)}
         </Row>
       </Col>
-      <Col xs={0} lg={{ span: 5, offset: 1 }}>
-        <h1>Liked posts</h1>
+      <Col xs={0} lg={{ span: 7, offset: 1 }}>
+        <Bookmarked />
       </Col>
     </Row>
   )
@@ -30,14 +31,9 @@ const FeedPage = ({ data, loading, error }) => {
 class FeedWithSubscription extends Component {
   componentDidMount() {
     this.props.subscribeToNewFeed()
+    this.props.subscribeToNewLike()
   }
 
-  // componentDidUpdate(prevProps) {
-  //   // Typical usage (don't forget to compare props):
-  //   if (this.props.userID !== prevProps.userID) {
-  //     this.fetchData(this.props.userID)
-  //   }
-  // }
   render() {
     return <FeedPage {...this.props} />
   }
@@ -62,6 +58,11 @@ const FeedWithData = () => (
                 feed: [...prev.feed, newPost],
               }
             },
+          })
+        }
+        subscribeToNewLike={() =>
+          subscribeToMore({
+            document: NEW_LIKE_SUBSCRIPTION,
           })
         }
       />
@@ -112,6 +113,36 @@ const FEED_SUBSCRIPTION = gql`
             name
           }
         }
+      }
+      mutation
+    }
+  }
+`
+
+const NEW_LIKE_SUBSCRIPTION = gql`
+  subscription {
+    likeSubscription {
+      node {
+        id
+        post {
+          id
+          title
+          text
+          createdAt
+          author {
+            id
+            name
+          }
+          likes {
+            id
+            user {
+              id
+            }
+          }
+        }
+        # user {
+        #   id
+        # }
       }
       mutation
     }

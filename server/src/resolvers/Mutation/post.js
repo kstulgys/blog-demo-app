@@ -51,9 +51,9 @@ const post = {
   },
   async createBookmark(parent, { postId }, ctx, info) {
     const userId = getUserId(ctx)
-    const postExists = await ctx.db.exists.Post({
+    const postExists = await ctx.db.exists.Bookmark({
       post: { id: postId },
-      author: { id: userId },
+      user: { id: userId },
     })
     if (postExists) {
       throw new Error(`Already bookedmarked post: ${postId}`)
@@ -62,8 +62,8 @@ const post = {
     return ctx.db.mutation.createBookmark(
       {
         data: {
-          post: { connect: { id: userId } },
-          author: { connect: { id: postId } },
+          post: { connect: { id: postId } },
+          user: { connect: { id: userId } },
         },
       },
       info,
@@ -85,11 +85,3 @@ const post = {
 }
 
 module.exports = { post }
-
-// const postExists = await ctx.db.exists.Like({
-//   post: { id: postId },
-//   author: { id: userId },
-// })
-// if (postExists) {
-//   throw new Error(`Already bookedmarked post: ${postId}`)
-// }
