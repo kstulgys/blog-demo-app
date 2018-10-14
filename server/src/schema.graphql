@@ -13,7 +13,11 @@ type Mutation {
   createDraft(title: String!, text: String!): Post!
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
-  createBookmark(postId: ID!): Bookmark!
+  createBookmark(postId: ID): Bookmark!
+  deleteBookmark(bookmarkId: ID): Bookmark
+
+  # deleteBookmark(id: ID!): Bookmark!
+
   createLike(postId: ID!): Like!
   # createPost(title: String!, text: String!): Post!
 }

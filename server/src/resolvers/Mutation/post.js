@@ -49,15 +49,28 @@ const post = {
 
     return ctx.db.mutation.deletePost({ where: { id } })
   },
+
+  // async deleteBookmark(parent, { id }, ctx, info) {
+  //   // const userId = getUserId(ctx)
+  //   // const postExists = await ctx.db.exists.Post({
+  //   //   id,
+  //   //   author: { id: userId },
+  //   // })
+  //   // if (!postExists) {
+  //   //   throw new Error(`Post not foun`)
+  //   // }
+
+  //   return ctx.db.mutation.deleteBookmark({ where: { id } })
+  // },
   async createBookmark(parent, { postId }, ctx, info) {
     const userId = getUserId(ctx)
-    const postExists = await ctx.db.exists.Bookmark({
-      post: { id: postId },
-      user: { id: userId },
-    })
-    if (postExists) {
-      throw new Error(`Already bookedmarked post: ${postId}`)
-    }
+    // const bookmarkExists = await ctx.db.exists.Bookmark({
+    //   post: { id: postId },
+    //   user: { id: userId },
+    // })
+    // if (bookmarkExists) {
+    //   return ctx.db.mutation.deleteBookmark({ where: { id: bookmarkId } }, {})
+    // }
 
     return ctx.db.mutation.createBookmark(
       {
@@ -68,6 +81,26 @@ const post = {
       },
       info,
     )
+  },
+  async deleteBookmark(parent, { bookmarkId }, ctx, info) {
+    // const userId = getUserId(ctx)
+    // const bookmarkExists = await ctx.db.exists.Bookmark({
+    //   post: { id: postId },
+    //   user: { id: userId },
+    // })
+    // if (bookmarkExists) {
+    return ctx.db.mutation.deleteBookmark({ where: { id: bookmarkId } })
+    // }
+
+    // return ctx.db.mutation.createBookmark(
+    //   {
+    //     data: {
+    //       post: { connect: { id: postId } },
+    //       user: { connect: { id: userId } },
+    //     },
+    //   },
+    //   info,
+    // )
   },
 
   async createLike(parent, { postId }, ctx, info) {

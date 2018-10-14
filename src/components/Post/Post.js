@@ -21,46 +21,34 @@ class Post extends Component {
     // }
     const post = this.props.post
     const { title, text, createdAt, likes, id } = this.props.post
+
     return (
-      <User>
-        {({ data }) => {
-          const bookmarked =
-            data.me && data.me.bookmarks.filter(item => item.post.id === id)[0]
+      <Col xs={24} sm={24} md={12} lg={{ span: 12 }}>
+        <article className="mt3 bg-white br1 h4 flex shadow-3 justify-between">
+          <div className="pa2 flex w-100 flex-column justify-between">
+            <h3 className="ttu pl2 ma0">{title}</h3>
+            <p className="w-100 pl2 block-with-text ma0">{text}</p>
+            <div className="flex justify-between mb0 pb0">
+              <div>
+                <p className="ma0 pl2">
+                  {moment(createdAt).format('MMM Do YY')}
+                </p>
+              </div>
+              <div className="flex justify-between">
+                <CreateLike post={post} />
+                <CreateBookmark post={post} />
+                <IconText type="message" text="2" />
+              </div>
+            </div>
+          </div>
 
-          console.log('bookmarked', bookmarked)
-          return (
-            <Col xs={24} sm={24} md={12} lg={{ span: 12 }}>
-              <article className="mt3 bg-white br1 h4 flex shadow-3 justify-between">
-                <div className="pa2 flex w-100 flex-column justify-between">
-                  <h3 className="ttu pl2 ma0">{title}</h3>
-                  <p className="w-100 pl2 block-with-text ma0">{text}</p>
-                  <div className="flex justify-between mb0 pb0">
-                    <div>
-                      <p className="ma0 pl2">
-                        {moment(createdAt).format('MMM Do YY')}
-                      </p>
-                    </div>
-                    <div className="flex justify-between">
-                      <CreateLike post={post} />
-                      <CreateBookmark
-                        post={post}
-                        bookmarked={bookmarked ? 'filled' : 'outlined'}
-                      />
-                      <IconText type="message" text="2" />
-                    </div>
-                  </div>
-                </div>
-
-                <img
-                  className="h4"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                  alt="night sky over water"
-                />
-              </article>
-            </Col>
-          )
-        }}
-      </User>
+          <img
+            className="h4"
+            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+            alt="night sky over water"
+          />
+        </article>
+      </Col>
     )
   }
 }

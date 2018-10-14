@@ -87,8 +87,12 @@ export const FEED_QUERY = gql`
           text
         }
         user {
+          id
           name
         }
+      }
+      bookmarks {
+        id
       }
     }
   }

@@ -14,7 +14,9 @@ class Bookmarked extends Component {
 
             return (
               data.me &&
-              data.me.bookmarks.map(book => <li>{book.post.title}</li>)
+              data.me.bookmarks.map(book => (
+                <li key={book.post.id}>{book.post.title}</li>
+              ))
             )
           }}
         </User>
